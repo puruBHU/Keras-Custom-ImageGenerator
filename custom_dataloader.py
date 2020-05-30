@@ -263,11 +263,9 @@ class Dataloader(Sequence):
         
         
     
-        batch_x = np.zeros(
-            tuple([len(file_names)] + list(self.image_shape)), dtype=np.float32)
+        batch_x = []
         
-        batch_y = np.zeros(
-            tuple([len(file_names)] + list(self.label_shape)), dtype=np.float32)
+        batch_y = []
         
 #         print batch_x.shape
         
@@ -292,9 +290,11 @@ class Dataloader(Sequence):
             # bring pixel values between zero and one
             x = self.image_data_generator.standardize(x)
             
-            batch_x[m] = x
-            batch_y[m] = y
+            batch_x.append(x)
+            batch_y.append(y)
             
+        batch_x = np.array(batch_x, dtype = np.float32)
+        batch_y = np.array(batch_y, dtype = np.float32)
             
         return (batch_x, batch_y)
     
